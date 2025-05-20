@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\MessageManagement;
+use App\Models\tokens;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class EnsureTenantAuthenticated
         }
 
         // البحث عن السجل بناءً على قيمة التوكن
-        $messageManagement = MessageManagement::where('token', $request->bearerToken())->firstOrFail();
+        $messageManagement = tokens::where('token', $request->bearerToken())->firstOrFail();
 
         // التحقق من العلاقة (tenant_subscription_log)
         $tenantSubscriptionLog = $messageManagement->tenant_subscription_log;

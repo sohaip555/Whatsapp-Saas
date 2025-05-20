@@ -2,13 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\MessageManagement;
+use App\Models\messages;
+use App\Models\tokens;
 use App\Models\Subscription_package;
+use App\Models\SubscriptionPackage;
 use App\Models\Tenant;
 use App\Models\TenantSubscriptionLog;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,11 +22,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-        ]);
+//        User::factory()->create([
+//            'name' => 'Test',
+//            'email' => 'test@example.com',
+//            'password' => bcrypt('password'),
+//        ]);
 
         $tenants[] = Tenant::factory()->create([
             'name' => 'Test',
@@ -31,11 +34,11 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $tenants[] = Tenant::factory(5)->create();
+//        $tenants[] = Tenant::factory(5)->create();
 
 
 //dd($tenants);
-        $packages = Subscription_package::insert([
+        $packages = SubscriptionPackage::insert([
             [
                 'name' => 'bronze',
                 'description' => 'Basic plan suitable for starters.',
@@ -74,24 +77,52 @@ class DatabaseSeeder extends Seeder
 
 
         foreach (Tenant::all() as $tenant) {
-            $package = Subscription_package::inRandomOrder()->first();
-//            dd($package->id, $tenant->id);
+            $package = SubscriptionPackage::inRandomOrder()->first();
             TenantSubscriptionLog::factory()->create([
                 'tenant_id' => $tenant->id,
                 'subscription_package_id' => $package->id,
                 'message_balance' => $package->message_balance,
             ]);
         }
+
+        foreach (Tenant::all() as $tenant) {
+            $package = SubscriptionPackage::inRandomOrder()->first();
+            TenantSubscriptionLog::factory()->create([
+                'tenant_id' => $tenant->id,
+                'subscription_package_id' => $package->id,
+                'message_balance' => $package->message_balance,
+            ]);
+        }
+
+        foreach (Tenant::all() as $tenant) {
+            $package = SubscriptionPackage::inRandomOrder()->first();
+            TenantSubscriptionLog::factory()->create([
+                'tenant_id' => $tenant->id,
+                'subscription_package_id' => $package->id,
+                'message_balance' => $package->message_balance,
+            ]);
+        }
+
+
 //        dd(Tenant::all()->first()->subscriptionLogs);
 
         foreach (Tenant::all()->first()->subscriptionLogs as $subscriptionLog) {
 
-            $MessageManagement = MessageManagement::factory()->create([
+            $tokens = tokens::factory()->create([
                 'tenant_subscription_log_id' => $subscriptionLog->id,
-                'message_quota' => $subscriptionLog->message_balance - 250,
+                'message_quota' => $subscriptionLog->message_balance - 80,
             ]);
 
-            $subscriptionLog->message_balance = $subscriptionLog->message_balance - $MessageManagement->message_quota;
+            $subscriptionLog->message_balance = $subscriptionLog->message_balance - $tokens->message_quota;
+            $subscriptionLog->save();
+
+        }
+
+        foreach (Tokens::all() as $token) {
+            messages::factory()->create([
+                'created_at' => now()->subDays(rand(0, 5)),
+                'tokens_id' => $token->id,
+            ]);
         }
 
 

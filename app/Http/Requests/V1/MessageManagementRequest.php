@@ -23,7 +23,8 @@ class MessageManagementRequest extends FormRequest
     {
         return [
             'message' => 'required|string',
-            'phone_number' => 'required',
+            'sending_number' => 'required',
+            'receiving_number' => 'required',
         ];
     }
 }

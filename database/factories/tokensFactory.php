@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\TenantSubscriptionLog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MessageManagement>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\tokens>
  */
-class MessageManagementFactory extends Factory
+class tokensFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,6 +19,7 @@ class MessageManagementFactory extends Factory
     {
         return [
             'token' => 'DHkWCvz7IEjTcxIhZgf0WmGjsXnELq84jEREIuF0t2WxPf0SRvAcOPSnN2CrC1FI', // Unique token for the record
+            'tenant_subscription_log_id' => TenantSubscriptionLog::factory(),
             'message_quota' => $this->faker->numberBetween(1, 1000), // Random message quota between 1 and 1000
         ];
     }

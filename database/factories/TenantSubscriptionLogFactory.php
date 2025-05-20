@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\SubscriptionPackage;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +19,10 @@ class TenantSubscriptionLogFactory extends Factory
     public function definition(): array
     {
         return [
-//            'tenant_id' => $this->faker->randomDigitNotNull(),
-//            'subscription_package_id' => $this->faker->randomDigitNotNull(),
-//            'message_balance' => $this->faker->numberBetween(50, 5000),
+            'name' => $this->faker->name(),
+            'tenant_id' => Tenant::factory(),
+            'subscription_package_id' => SubscriptionPackage::factory(),
+            'message_balance' => $this->faker->numberBetween(50, 5000),
         ];
     }
 }

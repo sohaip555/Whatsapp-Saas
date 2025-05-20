@@ -12,10 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('message_management', function (Blueprint $table) {
+        Schema::create('tokens', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(TenantSubscriptionLog::class)->constrained();
-            $table->string('token', 64)->unique(); // Unique token for the record
+            $table->string('token', 64); // Unique token for the record
             $table->unsignedInteger('message_quota'); // Total message quota
             $table->timestamps();
         });

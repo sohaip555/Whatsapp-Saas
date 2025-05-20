@@ -13,18 +13,16 @@ trait ApiResponses{
     protected function success($message, $data = [], $statusCode = 200)
     {
         return response()->json([
-            'data' => $data,
             'message' => $message,
-            'status' => $statusCode,
+            'data' => $data,
         ], $statusCode);
     }
 
 
-    protected function error($message, $statusCode)
+    protected function error($message, $statusCode = 404)
     {
         return response()->json([
             'message' => $message,
-            'status' => $statusCode,
         ], $statusCode);
     }
 

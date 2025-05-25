@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\tokens;
+use App\Models\token;
 use App\Models\TenantSubscriptionLog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(tokens::class)->constrained();
+            $table->foreignIdFor(token::class)->constrained();
             $table->string('message');
             $table->string('sending_number');
             $table->string('receiving_number');

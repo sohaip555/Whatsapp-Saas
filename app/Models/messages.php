@@ -14,16 +14,27 @@ class messages extends Model
 
     protected $guarded = [];
 
-
-    public function tokens(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function token(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(tokens::class);
+        return $this->belongsTo(token::class);
     }
 
-    public function scopeMessages(Builder $query): Builder
+
+    public static function sendMessage(array $message,  $bearerToken)
     {
-        return $query->whereHas('tokens.subscriptionLogs', function ($q) {
-            $q->where('tenant_id', auth('tenant')->id());
-        });
+//        dd($message);
+        $tokens = token::where('token', $bearerToken)->firstOrFail();
+
+//            dd($tokens);
+
+        $tokens->message_quota -= 1;
+        $tokens->save();
+
+        $message['token_id'] = $tokens->id;
+
+        $message = messages::create($message);
+
+        return $message;
     }
+
 }

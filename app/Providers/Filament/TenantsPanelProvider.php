@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Tenants\Widgets\DashboardChart;
+use App\Filament\Tenants\Widgets\DashboardStats;
 use App\Filament\Tenants\Widgets\SentMessagesStats;
 use App\Filament\Tenants\Widgets\TotalPaidStats;
 use Filament\Http\Middleware\Authenticate;
@@ -27,7 +29,7 @@ class TenantsPanelProvider extends PanelProvider
         return $panel
             ->id('tenants')
             ->login()
-            ->authGuard('tenant') // استخدام Guard المخصص
+            ->authGuard('tenant')
             ->path('tenants')
             ->colors([
                 'primary' => Color::Amber,

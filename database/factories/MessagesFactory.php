@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\tokens;
+use App\Models\token;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class MessagesFactory extends Factory
     {
         return [
             'message' => $this->faker->sentence(),
-            'tokens_id' => tokens::factory(),
+            'token_id' => token::factory(),
             'sending_number' => $this->faker->randomNumber(),
             'receiving_number' => $this->faker->randomNumber(),
 

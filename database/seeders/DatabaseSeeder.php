@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\messages;
-use App\Models\tokens;
-use App\Models\Subscription_package;
+use App\Models\token;
 use App\Models\SubscriptionPackage;
 use App\Models\Tenant;
 use App\Models\TenantSubscriptionLog;
@@ -22,11 +21,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-//        User::factory()->create([
-//            'name' => 'Test',
-//            'email' => 'test@example.com',
-//            'password' => bcrypt('password'),
-//        ]);
+        User::factory()->create([
+            'name' => 'Test',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+        ]);
 
         $tenants[] = Tenant::factory()->create([
             'name' => 'Test',
@@ -104,11 +103,11 @@ class DatabaseSeeder extends Seeder
         }
 
 
-//        dd(Tenant::all()->first()->subscriptionLogs);
+//        dd(Tenant::all()->first()->tenantSubscriptionLog);
 
         foreach (Tenant::all()->first()->subscriptionLogs as $subscriptionLog) {
 
-            $tokens = tokens::factory()->create([
+            $tokens = token::factory()->create([
                 'tenant_subscription_log_id' => $subscriptionLog->id,
                 'message_quota' => $subscriptionLog->message_balance - 80,
             ]);
@@ -118,10 +117,10 @@ class DatabaseSeeder extends Seeder
 
         }
 
-        foreach (Tokens::all() as $token) {
+        foreach (token::all() as $token) {
             messages::factory()->create([
                 'created_at' => now()->subDays(rand(0, 5)),
-                'tokens_id' => $token->id,
+                'token_id' => $token->id,
             ]);
         }
 

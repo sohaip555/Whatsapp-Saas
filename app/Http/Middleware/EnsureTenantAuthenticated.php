@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\tokens;
+use App\Models\token;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,14 +22,17 @@ class EnsureTenantAuthenticated
             abort(400, 'Token is missing from the request.');
         }
 
-        // البحث عن السجل بناءً على قيمة التوكن
-        $messageManagement = tokens::where('token', $request->bearerToken())->firstOrFail();
+        $token = token::where('token', $request->bearerToken())->firstOrFail();
+//        dd($token);
 
-        // التحقق من العلاقة (tenant_subscription_log)
-        $tenantSubscriptionLog = $messageManagement->tenant_subscription_log;
+        $tenantSubscriptionLog = $token->tenantSubscriptionLog;
 
         if (!$tenantSubscriptionLog) {
             abort(404, 'Tenant subscription log not found for the given token.');
+        }
+
+        if ($token->message_quota <= 0) {
+            abort(404, 'message quota is 0');
         }
 
         return $next($request);

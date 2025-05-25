@@ -28,7 +28,7 @@ class Tenant extends Authenticatable
 
     public function tokens()
     {
-        return $this->hasManyThrough(tokens::class, TenantSubscriptionLog::class);
+        return $this->hasManyThrough(token::class, TenantSubscriptionLog::class);
     }
 
 

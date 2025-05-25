@@ -3,7 +3,7 @@
 namespace App\Filament\Tenants\Resources\MessagesResource\Pages;
 
 use App\Filament\Tenants\Resources\MessagesResource;
-use App\Models\tokens;
+use App\Models\token;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

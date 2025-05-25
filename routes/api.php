@@ -11,7 +11,3 @@ Route::get('/user', function (Request $request) {
     return $request;
 });
 
-
-//Route::apiResource('tenant', TenantController::class)->middleware(EnsureTenantAuthenticated::class);
-
-//Route::post('tenant/login', [TenantAccessController::class, 'login']);

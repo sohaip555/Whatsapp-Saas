@@ -54,9 +54,9 @@ return [
     | Token Prefix
     |--------------------------------------------------------------------------
     |
-    | Sanctum can prefix new tokens in order to take advantage of numerous
+    | Sanctum can prefix new token in order to take advantage of numerous
     | security scanning initiatives maintained by open source platforms
-    | that notify developers if they commit tokens into repositories.
+    | that notify developers if they commit token into repositories.
     |
     | See: https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning
     |

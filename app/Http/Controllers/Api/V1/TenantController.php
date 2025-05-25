@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\MessageManagementRequest;
+use App\Http\Requests\Api\V1\MessageRequest;
 use App\Models\messages;
-use App\Models\tokens;
-use App\Models\Tenant;
-use App\Models\TenantSubscriptionLog;
+use App\Models\token;
 use App\Traits\ApiResponses;
-use Illuminate\Http\Request;
 
 class TenantController extends Controller
 {
@@ -17,36 +14,31 @@ class TenantController extends Controller
     /**
      * Send a message for a tenant.
      */
-    public function sendMessage(MessageManagementRequest $request)
+    public function sendMessage(MessageRequest $request)
     {
+        $message = $request->mappedAttributes();
 
-        $MessageManagement = tokens::where('token', $request->bearerToken())->firstOrFail();
 
-        // Check tenant's message balance
-        if ($MessageManagement->message_quota <= 0) {
+//        dd($message);
+
+        $message = messages::sendMessage($message, $request->bearerToken());
+
+
+        if (!$message){
             return $this->error(['error' => 'Insufficient message balance'], 400);
         }
 
-        // Decrease the message balance
-        $MessageManagement->message_quota -= 1;
-        $MessageManagement->save();
 
 
-        messages::create([
-            'tokens_id' => $MessageManagement->id,
-            'message' => $request->message,
-            'sending_number' => $request->sending_number,
-            'receiving_number' =>$request->receiving_number,
-        ]);
 
         // Logic to send a message (e.g., via email or SMS may be added here)
         return $this->ok(
             'Message sent successfully',
             [
-            'sending_number' => $request->sending_number,
-            'receiving_number' => $request->receiving_number,
-            'message quota' => $MessageManagement->message_quota,
-            ], 200);
+            'sending_number' => $message->sending_number,
+            'receiving_number' => $message->receiving_number,
+            'message quota' => $message->token->message_quota,
+            ]);
     }
 
 

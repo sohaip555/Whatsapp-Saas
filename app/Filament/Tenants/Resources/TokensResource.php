@@ -4,7 +4,7 @@ namespace App\Filament\Tenants\Resources;
 
 use App\Filament\Tenants\Resources\TokensResource\Pages;
 use App\Filament\Tenants\Resources\TokensResource\RelationManagers;
-use App\Models\Tokens;
+use App\Models\token;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
@@ -23,23 +23,24 @@ use Illuminate\Validation\ValidationException;
 
 class TokensResource extends Resource
 {
-    protected static ?string $model = Tokens::class;
+    protected static ?string $model = token::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-key';
+
     protected static ?string $navigationLabel = 'Tokens';
     protected static ?string $pluralModelLabel = 'Tokens';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(Tokens::getForm($form));
+            ->schema(token::getForm($form));
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('tenant_subscription_log.name'),
+                TextColumn::make('tenantSubscriptionLog.name'),
                 TextColumn::make('token')->searchable(),
                 TextColumn::make('message_quota'),
                 TextColumn::make('created_at')->dateTime(),
@@ -68,7 +69,7 @@ class TokensResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->whereHas('tenant_subscription_log', function ($query) {
+            ->whereHas('tenantSubscriptionLog', function ($query) {
                 $query->where('tenant_id', auth('tenant')->id());
             });
     }

@@ -11,11 +11,12 @@ use Illuminate\Support\Carbon;
 class DashboardStats extends BaseWidget
 {
 
+    protected static ?int $sort = 2;
+
     protected function getColumns(): int
     {
         return 2;
     }
-
 
     protected function getStats(): array
     {
@@ -23,7 +24,7 @@ class DashboardStats extends BaseWidget
         $tenant = Tenant::findOrFail($tenantId);
 
         // Messages
-        $messages = messages::whereIn('tokens_id', $tenant->tokens->pluck('id'))
+        $messages = messages::whereIn('token_id', $tenant->tokens->pluck('id'))
             ->orderBy('created_at', 'desc')
             ->get();
 

@@ -43,7 +43,7 @@ class MessagesResource extends Resource
                 Tables\Columns\TextColumn::make('receiving_number')
                     ->label('To'),
 
-                Tables\Columns\TextColumn::make('tokens.token')
+                Tables\Columns\TextColumn::make('token.token')
                     ->label('Token')
                     ->sortable(),
 

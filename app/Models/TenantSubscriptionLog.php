@@ -82,7 +82,7 @@ class TenantSubscriptionLog extends Model
 
     public function tokens()
     {
-        return $this->hasMany(tokens::class);
+        return $this->hasMany(token::class);
     }
 
 }

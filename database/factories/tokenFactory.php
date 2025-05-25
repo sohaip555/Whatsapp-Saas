@@ -6,9 +6,9 @@ use App\Models\TenantSubscriptionLog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\tokens>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\token>
  */
-class tokensFactory extends Factory
+class tokenFactory extends Factory
 {
     /**
      * Define the model's default state.

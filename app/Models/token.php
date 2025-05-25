@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Factories\tokensFactory;
+use Database\Factories\tokenFactory;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -13,19 +13,54 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class tokens extends Model
+class token extends Model
 {
-    /** @use HasFactory<tokensFactory> */
+    /** @use HasFactory<tokenFactory> */
     use HasFactory;
 
     protected $guarded = [];
+
+    public function tenantSubscriptionLog(): BelongsTo
+    {
+        return $this->belongsTo(TenantSubscriptionLog::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(messages::class);
+    }
+
+
+    protected static function booted()
+    {
+        static::created(function ($token) {
+//            dd($token);
+            $subscription = $token->tenantSubscriptionLog;
+
+            if ($subscription && $subscription->message_balance >= $token->message_quota) {
+                $subscription->message_balance -= $token->message_quota;
+                $subscription->save();
+            }
+        });
+
+
+        static::deleted(function ($token) {
+//            dd($token);
+            $subscription = $token->tenantSubscriptionLog;
+
+                $subscription->message_balance += $token->message_quota;
+                $subscription->save();
+
+        });
+    }
+
 
     public static function getForm(Form $form)
     {
         return [
             Select::make('tenant_subscription_log_id')
                 ->label('Subscription Log')
-                ->relationship('tenant_subscription_log', 'name',
+                ->relationship('tenantSubscriptionLog', 'name',
                     modifyQueryUsing: fn (Builder $query) => $query
                         ->where('tenant_id', auth('tenant')->id())
                         ->where('tenant_subscription_logs.message_balance','>' , 0)
@@ -55,41 +90,6 @@ class tokens extends Model
         ];
     }
 
-    public function subscriptionLogs(): BelongsTo
-    {
-        return $this->belongsTo(TenantSubscriptionLog::class);
-    }
-
-
-    public function messages()
-    {
-        return $this->hasMany(messages::class);
-    }
-
-
-    protected static function booted()
-    {
-        static::created(function ($token) {
-//            dd($token);
-            $subscription = $token->tenant_subscription_log;
-
-            if ($subscription && $subscription->message_balance >= $token->message_quota) {
-                $subscription->message_balance -= $token->message_quota;
-                $subscription->save();
-            }
-        });
-
-
-
-        static::deleted(function ($token) {
-//            dd($token);
-            $subscription = $token->tenant_subscription_log;
-
-                $subscription->message_balance += $token->message_quota;
-                $subscription->save();
-
-        });
-    }
 
 
 }

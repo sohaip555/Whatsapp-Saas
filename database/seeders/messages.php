@@ -15,25 +15,14 @@ class messages extends Seeder
     {
         $day = 90;
         foreach (token::all() as $token) {
-            \App\Models\messages::factory()->create([
-                'created_at' => now()->subDays(rand(0, $day)),
-                'tokens_id' => $token->id,
-            ]);
 
-            \App\Models\messages::factory()->create([
-                'created_at' => now()->subDays(rand(0, $day)),
-                'tokens_id' => $token->id,
-            ]);
+            for ($i = 1; $i <= 5; $i++) {
+                \App\Models\messages::factory()->create([
+                    'created_at' => now()->subDays(rand(0, $day)),
+                    'tokens_id' => $token->id,
+                ]);
 
-            \App\Models\messages::factory()->create([
-                'created_at' => now()->subDays(rand(0, $day)),
-                'tokens_id' => $token->id,
-            ]);
-
-            \App\Models\messages::factory()->create([
-                'created_at' => now()->subDays(rand(0, $day)),
-                'tokens_id' => $token->id,
-            ]);
+            }
         }
     }
 }

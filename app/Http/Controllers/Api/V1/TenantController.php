@@ -20,16 +20,10 @@ class TenantController extends Controller
 
 
 //        dd($message);
-
         $message = messages::sendMessage($message, $request->bearerToken());
-
-
         if (!$message){
             return $this->error(['error' => 'Insufficient message balance'], 400);
         }
-
-
-
 
         // Logic to send a message (e.g., via email or SMS may be added here)
         return $this->ok(
@@ -40,6 +34,12 @@ class TenantController extends Controller
             'message quota' => $message->token->message_quota,
             ]);
     }
+
+
+    public function bulkSend()
+    {
+        
+    }    
 
 
 }

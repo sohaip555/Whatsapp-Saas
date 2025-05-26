@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');// اسم الشركة
             $table->string('email')->unique(); // البريد الإلكتروني للشركة
             $table->string('password');
+            $table->string('phone')->unique()->nullable();
             $table->integer('message_balance')->nullable(); // عدد الرسائل المتاحة
             $table->timestamps();
         });

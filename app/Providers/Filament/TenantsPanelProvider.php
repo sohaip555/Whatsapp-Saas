@@ -4,8 +4,6 @@ namespace App\Providers\Filament;
 
 use App\Filament\Tenants\Widgets\DashboardChart;
 use App\Filament\Tenants\Widgets\DashboardStats;
-use App\Filament\Tenants\Widgets\SentMessagesStats;
-use App\Filament\Tenants\Widgets\TotalPaidStats;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;

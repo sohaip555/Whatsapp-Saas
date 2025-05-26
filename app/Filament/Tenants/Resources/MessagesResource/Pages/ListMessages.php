@@ -4,7 +4,6 @@ namespace App\Filament\Tenants\Resources\MessagesResource\Pages;
 
 use App\Filament\Tenants\Resources\MessagesResource;
 use App\Filament\Tenants\Widgets\DashboardStats;
-use App\Filament\Tenants\Widgets\SentMessagesStats;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

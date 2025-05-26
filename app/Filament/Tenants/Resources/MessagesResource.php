@@ -4,7 +4,6 @@ namespace App\Filament\Tenants\Resources;
 
 use App\Filament\Tenants\Resources\MessagesResource\Pages;
 use App\Filament\Tenants\Widgets\DashboardStats;
-use App\Filament\Tenants\Widgets\SentMessagesStats;
 use App\Models\Messages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -76,7 +75,6 @@ class MessagesResource extends Resource
             DashboardStats::class,
         ];
     }
-
 
     public static function getPages(): array
     {

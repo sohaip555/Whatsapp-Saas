@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $tenants[] = Tenant::factory()->create([
+        $tenant = Tenant::factory()->create([
             'name' => 'Test',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
@@ -75,25 +75,7 @@ class DatabaseSeeder extends Seeder
 //        dd(Subscription_package::inRandomOrder()->first());
 
 
-        foreach (Tenant::all() as $tenant) {
-            $package = SubscriptionPackage::inRandomOrder()->first();
-            TenantSubscriptionLog::factory()->create([
-                'tenant_id' => $tenant->id,
-                'subscription_package_id' => $package->id,
-                'message_balance' => $package->message_balance,
-            ]);
-        }
-
-        foreach (Tenant::all() as $tenant) {
-            $package = SubscriptionPackage::inRandomOrder()->first();
-            TenantSubscriptionLog::factory()->create([
-                'tenant_id' => $tenant->id,
-                'subscription_package_id' => $package->id,
-                'message_balance' => $package->message_balance,
-            ]);
-        }
-
-        foreach (Tenant::all() as $tenant) {
+        for ($i = 0; $i < 10; $i++){
             $package = SubscriptionPackage::inRandomOrder()->first();
             TenantSubscriptionLog::factory()->create([
                 'tenant_id' => $tenant->id,

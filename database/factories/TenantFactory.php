@@ -20,6 +20,7 @@ class TenantFactory extends Factory
             'name' => $this->faker->company,
             'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'), // Default password for testing
+            'phone' => $this->faker->phoneNumber,
             'message_balance' => $this->faker->numberBetween(50, 1000), // Random balance between 50 and 1000
 
         ];

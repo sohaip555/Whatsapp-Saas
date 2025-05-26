@@ -41,8 +41,16 @@ class TokensResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('tenantSubscriptionLog.name'),
-                TextColumn::make('token')->searchable(),
+                TextColumn::make('token')->searchable()
+                    ->formatStateUsing(function ($state) {
+                        return Str::limit($state, 20);
+                    }),
                 TextColumn::make('message_quota'),
+                Tables\Columns\ToggleColumn::make('isActive')
+                    ->label('Active')
+                    ->default(function ($status) {
+                        return $status ? 'Active' : 'Inactive';
+                    }),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([

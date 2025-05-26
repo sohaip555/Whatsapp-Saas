@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(TenantSubscriptionLog::class)->constrained();
             $table->string('token', 64); // Unique token for the record
+            $table->boolean('isActive')->default(false);
             $table->unsignedInteger('message_quota'); // Total message quota
             $table->timestamps();
         });

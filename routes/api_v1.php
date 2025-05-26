@@ -11,3 +11,4 @@ use Illuminate\Support\Facades\Route;
 //Route::apiResource('tenant', TenantController::class)->middleware(EnsureTenantAuthenticated::class);
 Route::post('messages/send', [TenantController::class, 'sendMessage'])->middleware(EnsureTenantAuthenticated::class);
 
+Route::post('messages/bulk-send', [TenantController::class, 'bulkSend'])->middleware(EnsureTenantAuthenticated::class);

@@ -41,6 +41,7 @@ class DashboardStats extends BaseWidget
         $sentMessagesStat = Stat::make('Sent Messages', $startDate ? array_sum($dailyCounts) : 0)
             ->description($startDate ? 'From first sent message ' . $startDate->format('M jS') . ' to ' . $endDate->format('M jS') : 'No messages sent yet')
             ->descriptionIcon('heroicon-o-paper-airplane')
+            ->icon('heroicon-o-paper-airplane')
             ->color('success')
             ->chart($dailyCounts);
 

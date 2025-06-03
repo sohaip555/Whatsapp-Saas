@@ -31,6 +31,11 @@ class TenantsPanelProvider extends PanelProvider
             ->path('tenants')
             ->colors([
                 'primary' => Color::Amber,
+                'gold' => '#FFD700',
+                'silver' => '#C0C0C0',
+                'platinum' => '#E5E4E2',
+                'bronze' => '#B87333',
+//                'bronze' => '#CD7F32',
             ])
             ->discoverResources(in: app_path('Filament/Tenants/Resources'), for: 'App\\Filament\\Tenants\\Resources')
             ->discoverPages(in: app_path('Filament/Tenants/Pages'), for: 'App\\Filament\\Tenants\\Pages')

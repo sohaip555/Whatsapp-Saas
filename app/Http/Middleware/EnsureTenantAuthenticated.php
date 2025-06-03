@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureTenantAuthenticated
 {
+
+
     /**
      * Handle an incoming request.
      *
@@ -19,16 +21,14 @@ class EnsureTenantAuthenticated
 //        dd( $request->bearerToken());
 
         if (!$request->bearerToken()) {
+
             abort(400, 'Token is missing from the request.');
         }
 
         $token = token::where('token', $request->bearerToken())->firstOrFail();
-//        dd($token);
 
-        $tenantSubscriptionLog = $token->tenantSubscriptionLog;
-
-        if (!$tenantSubscriptionLog) {
-            abort(404, 'Tenant subscription log not found for the given token.');
+        if (!$token->isActive) {
+            abort(404, 'The token is inactive.');
         }
 
         if ($token->message_quota <= 0) {

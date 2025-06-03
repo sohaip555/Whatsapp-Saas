@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkSend extends FormRequest
+class BulkSendRequest extends BaseBulkSendRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,10 @@ class BulkSend extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'data.attributes.message' => ['required', 'string'],
+            'data.attributes.sendingNumber' => ['required', 'string'],
+            'data.attributes.receivingNumbers' => ['required', 'array', 'min:1'],
+            'data.attributes.receivingNumbers.*' => ['required', 'string'],
         ];
     }
 }

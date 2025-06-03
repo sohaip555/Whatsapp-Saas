@@ -7,6 +7,8 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +21,24 @@ class token extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public static function getMyTable()
+    {
+        return [
+            TextColumn::make('tenantSubscriptionLog.name'),
+            TextColumn::make('token')->searchable()
+                ->formatStateUsing(function ($state) {
+                    return Str::limit($state, 20);
+                }),
+            TextColumn::make('message_quota'),
+            ToggleColumn::make('isActive')
+                ->label('Active')
+                ->default(function ($status) {
+                    return $status ? 'Active' : 'Inactive';
+                }),
+            TextColumn::make('created_at')->dateTime(),
+        ];
+    }
 
     public function tenantSubscriptionLog(): BelongsTo
     {
@@ -55,7 +75,7 @@ class token extends Model
     }
 
 
-    public static function getForm(Form $form)
+    public static function getForm()
     {
         return [
             Select::make('tenant_subscription_log_id')

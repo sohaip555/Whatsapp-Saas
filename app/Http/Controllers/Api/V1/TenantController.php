@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\BulkSendRequest;
 use App\Http\Requests\Api\V1\MessageRequest;
 use App\Models\messages;
 use App\Models\token;
@@ -16,11 +17,10 @@ class TenantController extends Controller
      */
     public function sendMessage(MessageRequest $request)
     {
-        $message = $request->mappedAttributes();
 
 
+        $message = messages::sendMessage($request->mappedAttributes(), $request->bearerToken());
 //        dd($message);
-        $message = messages::sendMessage($message, $request->bearerToken());
         if (!$message){
             return $this->error(['error' => 'Insufficient message balance'], 400);
         }
@@ -29,17 +29,26 @@ class TenantController extends Controller
         return $this->ok(
             'Message sent successfully',
             [
-            'sending_number' => $message->sending_number,
-            'receiving_number' => $message->receiving_number,
+            'sending number' => $message->sending_number,
+            'receiving number' => $message->receiving_number,
             'message quota' => $message->token->message_quota,
             ]);
     }
 
 
-    public function bulkSend()
+    public function bulkSend(BulkSendRequest $request)
     {
-        
-    }    
+        $message = $request->mappedAttributes();
+
+
+        $response = messages::BulkMessages($message, $request->bearerToken());
+
+        return $this->ok(
+            'Message sent successfully',
+            $response,
+            );
+
+    }
 
 
 }

@@ -21,7 +21,26 @@ class TenantSubscriptionLog extends Model
 
     protected $guarded = [];
 
-    public static function getForm(Form $form)
+
+    public function tenant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function subscriptionPackage(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(SubscriptionPackage::class);
+    }
+
+    public function tokens()
+    {
+        return $this->hasMany(token::class);
+    }
+
+
+
+
+    public static function getForm()
     {
 
         return [
@@ -70,19 +89,5 @@ class TenantSubscriptionLog extends Model
     }
 
 
-    public function tenant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-
-    public function subscriptionPackage(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(SubscriptionPackage::class);
-    }
-
-    public function tokens()
-    {
-        return $this->hasMany(token::class);
-    }
 
 }

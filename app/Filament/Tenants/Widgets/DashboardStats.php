@@ -20,7 +20,7 @@ class DashboardStats extends BaseWidget
 
     protected function getStats(): array
     {
-        $tenantId = auth('tenant')->id();
+        $tenantId = auth()->user()->tenant_id;
         $tenant = Tenant::findOrFail($tenantId);
 
         // Messages

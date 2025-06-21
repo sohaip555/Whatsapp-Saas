@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class User extends Authenticatable //implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -34,6 +37,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    //Casts, Type -> UserTypeEnum
+
     /**
      * Get the attributes that should be cast.
      *
@@ -57,4 +62,23 @@ class User extends Authenticatable
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
+
+    //filament, CanAccessPanel
+/*    public function canAccessPanel(Panel $panel): bool
+    {
+        /*
+         * if $panel->getId() == 'admin' && $this->type == UserTypeEnum::admin {
+         *
+         *  return true
+         * }
+         *
+         *
+         * if $panel->getId() == 'company' && $this->type == UserTypeEnum::company {
+         *
+         *  return true
+         * }
+         *
+         * return false;
+         * */
+    //}
 }

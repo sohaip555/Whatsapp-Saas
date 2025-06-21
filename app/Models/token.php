@@ -53,6 +53,11 @@ class token extends Model
 
     protected static function booted()
     {
+        static::creating(function ($token) {
+            $token->tenant_id = auth()->user()->tenant_id;
+        });
+
+
         static::created(function ($token) {
 //            dd($token);
             $subscription = $token->tenantSubscriptionLog;
@@ -82,7 +87,7 @@ class token extends Model
                 ->label('Subscription Log')
                 ->relationship('tenantSubscriptionLog', 'name',
                     modifyQueryUsing: fn (Builder $query) => $query
-                        ->where('tenant_id', auth('tenant')->id())
+                        ->where('tenant_id', auth()->user()->tenant_id)
                         ->where('tenant_subscription_logs.message_balance','>' , 0)
                         ->orderBy('created_at', 'desc')
                 ),

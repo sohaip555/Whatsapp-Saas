@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Tenants\Resources;
+namespace App\Filament\Resources;
 
-use App\Filament\Tenants\Resources\MessagesResource\Pages;
-use App\Filament\Tenants\Widgets\DashboardStats;
+use App\Filament\Resources\MessagesResource\Pages;
+use App\Filament\Resources\MessagesResource\RelationManagers;
 use App\Models\Messages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,12 +11,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MessagesResource extends Resource
 {
     protected static ?string $model = Messages::class;
+
 
     protected static ?int $sort = 3;
 
@@ -24,11 +24,11 @@ class MessagesResource extends Resource
     protected static ?string $navigationGroup = 'Messaging';
     protected static ?string $navigationLabel = 'Messages';
 
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
             ]);
     }
 
@@ -36,39 +36,37 @@ class MessagesResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('token.id')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('message')
-                    ->label('Message')
-                    ->formatStateUsing(function ($state) {
-                        return Str::limit($state, 20);
-                    })
                     ->searchable(),
-
                 Tables\Columns\TextColumn::make('sending_number')
-                    ->label('From'),
-
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('receiving_number')
-                    ->label('To'),
-
-                Tables\Columns\TextColumn::make('token.token')
-                    ->label('Token')
-                    ->formatStateUsing(function ($state) {
-                        return Str::limit($state, 20);
-                    })
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tenant.name')
+                    ->numeric()
                     ->sortable(),
-
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime('d M Y, H:i')
-                    ->sortable(),
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-//                    Tables\Actions\EditAction::make(),
-//                    Tables\Actions\DeleteAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
@@ -77,24 +75,6 @@ class MessagesResource extends Resource
         return [
             //
         ];
-    }
-
-    public static function getWidgets(): array
-    {
-        return [
-            DashboardStats::class,
-        ];
-    }
-
-
-
-    public static function getEloquentQuery(): Builder
-    {
-//        dd(parent::getEloquentQuery()->get());
-        //current User -> tenant_id
-        return parent::getEloquentQuery()
-            ->where('tenant_id', auth()->user()->tenant_id)
-            ;
     }
 
     public static function getPages(): array

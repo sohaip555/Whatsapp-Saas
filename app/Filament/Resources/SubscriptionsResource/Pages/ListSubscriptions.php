@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Filament\Tenants\Resources\SubscriptionsResource\Pages;
+namespace App\Filament\Resources\SubscriptionsResource\Pages;
 
-use App\Filament\Tenants\Resources\SubscriptionsResource;
-use App\Filament\Tenants\Resources\SubscriptionsResource\Widgets\SubscriptionsStats;
-use App\Filament\Tenants\Resources\SubscriptionsResource\Widgets\TokensTable;
+use App\Filament\Resources\SubscriptionsResource;
+use App\Filament\Resources\SubscriptionsResource\Widgets\SubscriptionsStats;
 use App\Models\TenantSubscriptionLog;
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
@@ -22,21 +21,16 @@ class ListSubscriptions extends ListRecords
         return [
             Actions\CreateAction::make(),
         ];
-    }
+     }
 
-    public function getHeaderWidgets(): array
+
+    protected function getHeaderWidgets(): array
     {
-        return [
-            SubscriptionsStats::class,
-        ];
+        return [SubscriptionsStats::class];
     }
-
-
-
 
     public function getTabs(): array
     {
         return TenantSubscriptionLog::getMyTable();
     }
-
 }

@@ -19,6 +19,11 @@ class messages extends Model
         return $this->belongsTo(token::class);
     }
 
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
 
     public static function sendMessage(array $message,  $bearerToken)
     {

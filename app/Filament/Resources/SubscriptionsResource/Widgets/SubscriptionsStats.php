@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Tenants\Resources\SubscriptionsResource\Widgets;
+namespace App\Filament\Resources\SubscriptionsResource\Widgets;
 
-use App\Filament\Tenants\Resources\SubscriptionsResource;
+use App\Filament\Resources\SubscriptionsResource\Pages\ListSubscriptions;
 use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -12,7 +12,6 @@ class SubscriptionsStats extends BaseWidget
 
     use InteractsWithPageTable;
 
-
     protected function getColumns(): int
     {
         return 2;
@@ -20,9 +19,8 @@ class SubscriptionsStats extends BaseWidget
 
     protected function getTablePage(): string
     {
-        return SubscriptionsResource\Pages\ListSubscriptions::class;
+        return ListSubscriptions::class;
     }
-
 
     protected function getStats(): array
     {

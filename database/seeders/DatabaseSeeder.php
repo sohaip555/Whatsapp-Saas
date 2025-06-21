@@ -19,21 +19,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-        ]);
-
         $tenant = Tenant::factory()->create([
             'name' => 'Test',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
         ]);
 
-//        $tenants[] = Tenant::factory(5)->create();
+        User::factory()->create([
+            'name' => 'Test',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+            'tenant_id' => $tenant->id,
+        ]);
+
+
+        $tenants[] = Tenant::factory(5)->create();
 
 
 //dd($tenants);
@@ -87,11 +87,12 @@ class DatabaseSeeder extends Seeder
 
 //        dd(Tenant::all()->first()->tenantSubscriptionLog);
 
-        foreach (Tenant::all()->first()->subscriptionLogs as $subscriptionLog) {
+        foreach ($tenant->subscriptionLogs as $subscriptionLog) {
 
             $tokens = token::factory()->create([
                 'tenant_subscription_log_id' => $subscriptionLog->id,
                 'message_quota' => $subscriptionLog->message_balance - 80,
+                'tenant_id' => $tenant->id,
             ]);
 
             $subscriptionLog->message_balance = $subscriptionLog->message_balance - $tokens->message_quota;
@@ -103,9 +104,11 @@ class DatabaseSeeder extends Seeder
             messages::factory()->create([
                 'created_at' => now()->subDays(rand(0, 5)),
                 'token_id' => $token->id,
+                'tenant_id' =>  $tenant->id,
             ]);
         }
 
+         User::factory(10)->create();
 
 
     }

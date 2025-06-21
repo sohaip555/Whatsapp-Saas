@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Tenant;
 use App\Models\token;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class MessagesFactory extends Factory
         return [
             'message' => $this->faker->sentence(),
             'token_id' => token::factory(),
+            'tenant_id' => Tenant::factory(),
             'sending_number' => $this->faker->randomNumber(),
             'receiving_number' => $this->faker->randomNumber(),
 

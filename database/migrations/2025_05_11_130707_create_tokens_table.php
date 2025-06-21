@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('token', 64); // Unique token for the record
             $table->boolean('isActive')->default(false);
             $table->unsignedInteger('message_quota'); // Total message quota
+            $table->foreignIdFor(\App\Models\Tenant::class)->constrained();
             $table->timestamps();
         });
     }

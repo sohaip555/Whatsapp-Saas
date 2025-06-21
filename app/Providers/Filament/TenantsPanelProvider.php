@@ -27,7 +27,7 @@ class TenantsPanelProvider extends PanelProvider
         return $panel
             ->id('tenants')
             ->login()
-            ->authGuard('tenant')
+//            ->authGuard('tenant')
             ->path('tenants')
             ->colors([
                 'primary' => Color::Amber,

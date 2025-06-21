@@ -1,28 +1,36 @@
 <?php
 
-namespace App\Filament\Tenants\Resources;
+namespace App\Filament\Resources;
 
-use App\Filament\Tenants\Resources\SubscriptionsResource\Pages;
-use App\Filament\Tenants\Resources\SubscriptionsResource\Widgets\SubscriptionsStats;
-use App\Filament\Tenants\Resources\SubscriptionsResource\Widgets\TokensTable;
+use App\Filament\Resources\SubscriptionsResource\Pages;
+use App\Filament\Resources\SubscriptionsResource\Widgets\SubscriptionsStats;
+use App\Filament\Resources\SubscriptionsResource\Widgets\TokensTable;
+use App\Models\SubscriptionPackage;
+use App\Models\Tenant;
 use App\Models\TenantSubscriptionLog;
+use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SubscriptionsResource extends Resource
 {
     protected static ?string $model = TenantSubscriptionLog::class;
-    protected static ?int $sort = 1;
+
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationGroup = 'Subscriptions';
 
     protected static ?string $label = "Subscriptions";
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?int $sort = 1;
+
 
 
     public static function form(Form $form): Form
@@ -42,7 +50,10 @@ class SubscriptionsResource extends Resource
         return $table
             ->columns([
 
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->searchable(),
+                TextColumn::make('tenant.name')
+                    ->searchable(),
                 TextColumn::make('subscriptionPackage.name')
                     ->label('Package Name')
                     ->badge()
@@ -53,9 +64,16 @@ class SubscriptionsResource extends Resource
                 TextColumn::make('created_at')
                     ->dateTime(),
             ])
-            ->filters([])
+            ->filters([
+                SelectFilter::make('subscriptionPackage')
+                    ->options(SubscriptionPackage::all()->pluck('name', 'id')),
+                SelectFilter::make('tenant')
+                    ->options(Tenant::all()->pluck('name', 'id')),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -64,25 +82,19 @@ class SubscriptionsResource extends Resource
             ]);
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            SubscriptionsStats::class,
+            TokensTable::class,
+        ];
+    }
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->where('tenant_id', auth()->user()->tenant_id);
-    }
-
-
-    public static function getNavigationGroup(): ?string
-    {
-        return 'Subscriptions';
-    }
-
 
     public static function getPages(): array
     {

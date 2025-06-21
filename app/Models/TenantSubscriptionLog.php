@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
@@ -10,6 +11,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +23,6 @@ class TenantSubscriptionLog extends Model
 
 
     protected $guarded = [];
-
 
     public function tenant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -37,14 +39,14 @@ class TenantSubscriptionLog extends Model
         return $this->hasMany(token::class);
     }
 
-
-
-
     public static function getForm()
     {
 
         return [
-            TextInput::make('name'),
+            TextInput::make('name')
+                ->required()
+                ->maxLength(50),
+
 
 
             Section::make([
@@ -75,7 +77,8 @@ class TenantSubscriptionLog extends Model
             Hidden::make('tenant_id')
                 ->dehydrated(true)
                 ->default(function (){
-                    return auth('tenant')->id();
+
+                    return auth()->user()->tenant_id ?? Tenant::where(['email' => 'admin@example.com'])->first()->id;
                 }),
 
             Hidden::make('message_balance')
@@ -87,6 +90,74 @@ class TenantSubscriptionLog extends Model
 
         ];
     }
+
+
+    public static function getMyTable()
+    {
+        return [
+                'all' => Tab::make('All'),
+                'platinum' => Tab::make('platinum')
+                    ->modifyQueryUsing(function ($query) {
+                        return $query->whereHas('subscriptionPackage',  function ($query) {
+                            return $query->where('subscription_packages.name', 'platinum');
+                        });
+                    }),
+                'gold' => Tab::make('Gold')
+                    ->modifyQueryUsing(function ($query) {
+                        return $query->whereHas('subscriptionPackage',  function ($query) {
+                            return $query->where('subscription_packages.name', 'gold');
+                        });
+                    }),
+                'silver' => Tab::make('silver')
+                    ->modifyQueryUsing(function ($query) {
+                        return $query->whereHas('subscriptionPackage',  function ($query) {
+                            return $query->where('subscription_packages.name', 'silver');
+                        });
+                    }),
+                'bronze' => Tab::make('bronze')
+                    ->modifyQueryUsing(function ($query) {
+                        return $query->whereHas('subscriptionPackage',  function ($query) {
+                            return $query->where('subscription_packages.name', 'bronze');
+                        });
+                    }),
+            ];
+    }
+
+
+    public static function getMyInfolist()
+    {
+        return [
+                \Filament\Infolists\Components\Section::make('Subscription Details')
+                    ->columns(2)
+                    ->schema([
+                        TextEntry::make('name')
+                            ->label('Name'),
+
+                        TextEntry::make('subscriptionPackage.name')
+                            ->label('Package Name')
+                            ->badge()
+                            ->color(function ($state) {
+                                return $state;
+                            }),
+
+                        TextEntry::make('message_balance')
+                            ->label('Message Balance'),
+                    ]),
+
+//                Section::make('Metadata')
+//                    ->columns(2)
+//                    ->schema([
+//                        TextEntry::make('created_at')
+//                            ->label('Created At')
+//                            ->dateTime(),
+//
+//                        TextEntry::make('updated_at')
+//                            ->label('Updated At')
+//                            ->dateTime(),
+//                    ]),
+            ];
+    }
+
 
 
 

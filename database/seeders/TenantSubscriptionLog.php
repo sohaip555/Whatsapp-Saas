@@ -13,10 +13,15 @@ class TenantSubscriptionLog extends Seeder
      */
     public function run(): void
     {
-        $package = SubscriptionPackage::inRandomOrder()->first();
-        \App\Models\TenantSubscriptionLog::factory()->create([
-            'subscription_package_id' => $package->id,
-            'message_balance' => $package->message_balance,
-        ]);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $package = SubscriptionPackage::inRandomOrder()->first();
+            \App\Models\TenantSubscriptionLog::factory()->create([
+                'subscription_package_id' => $package->id,
+                'message_balance' => $package->message_balance,
+            ]);
+        }
+
+
     }
 }

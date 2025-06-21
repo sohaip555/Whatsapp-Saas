@@ -33,7 +33,11 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'primary' => Color::Amber,
-                'yello' => Color::Yellow
+                'gold' => '#FFD700',
+                'silver' => '#C0C0C0',
+                'platinum' => '#E5E4E2',
+                'bronze' => '#B87333',
+//                'bronze' => '#CD7F32',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

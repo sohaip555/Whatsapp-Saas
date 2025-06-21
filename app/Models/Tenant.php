@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Tenant extends Authenticatable
+class Tenant extends Model
 {
     /** @use HasFactory<\Database\Factories\TenantFactory> */
     use HasFactory;
@@ -31,7 +31,7 @@ class Tenant extends Authenticatable
         return $this->hasManyThrough(token::class, TenantSubscriptionLog::class);
     }
 
-
-
+    //
+    //
 
 }

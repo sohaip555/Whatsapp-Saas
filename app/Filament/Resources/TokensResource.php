@@ -1,41 +1,29 @@
 <?php
 
-namespace App\Filament\Tenants\Resources;
+namespace App\Filament\Resources;
 
-use App\Filament\Tenants\Resources\SubscriptionsResource\Pages\ViewSubscriptions;
-use App\Filament\Tenants\Resources\TokensResource\Pages;
-use App\Filament\Tenants\Resources\TokensResource\Pages\ViewToken;
-use App\Filament\Tenants\Resources\TokensResource\RelationManagers;
+use App\Filament\Resources\TokensResource\Pages;
+use App\Filament\Resources\TokensResource\RelationManagers;
 use App\Filament\Tenants\Resources\TokensResource\Widgets\MessagesTable;
 use App\Models\token;
-use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
+use App\Models\Tokens;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Unique;
-use Illuminate\Validation\ValidationException;
 
 class TokensResource extends Resource
 {
-    protected static ?string $model = token::class;
-
-    protected static ?int $sort = 2;
-
+    protected static ?string $model = Token::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-key';
 
-    protected static ?string $navigationLabel = 'Tokens';
+    protected static ?string $navigationLabel = 'TokensTable';
 
     protected static ?string $navigationGroup = 'Management';
 
@@ -79,7 +67,6 @@ class TokensResource extends Resource
             ]);
     }
 
-
     public static function table(Table $table): Table
     {
         return $table
@@ -87,18 +74,11 @@ class TokensResource extends Resource
                 token::getMyTable()
             )
             ->filters([
-//                Tables\Filters\Filter::make('isActive')
-//                    ->label('Show Only the Token is Active')
-//                    ->query(function ($query)
-//                    {
-//                        $query->where('isActive', 1);
-//                    }),
+                //
             ])
             ->actions([
-//                Tables\Actions\EditAction::make(),
-//                Tables\Actions\DeleteAction::make()
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -114,15 +94,6 @@ class TokensResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->whereHas('tenantSubscriptionLog', function ($query) {
-                $query->where('tenant_id', auth()->user()->tenant_id);
-            });
-    }
-
-
     public static function getWidgets(): array
     {
         return [
@@ -135,8 +106,8 @@ class TokensResource extends Resource
     {
         return [
             'index' => Pages\ListTokens::route('/'),
-            'view' => ViewToken::route('/{record}'),
-//            'create' => Pages\CreateTokens::route('/create'),
+            'view' => Pages\ViewTokens::route('/{record}'),
+            'create' => Pages\CreateTokens::route('/create'),
 //            'edit' => Pages\EditTokens::route('/{record}/edit'),
         ];
     }

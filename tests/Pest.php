@@ -11,6 +11,8 @@
 |
 */
 
+use Pest\Plugins\Parallel\Handlers\Pest;
+
 pest()->extend(Tests\TestCase::class)
  // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
@@ -41,7 +43,9 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function actAsAdmin()
 {
-    // ..
+    $user = \App\Models\User::factory()->create();
+
+    return test()->actingAs($user);
 }

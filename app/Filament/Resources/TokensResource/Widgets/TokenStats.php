@@ -1,23 +1,26 @@
 <?php
 
-namespace App\Filament\Tenants\Resources\TokensResource\Widgets;
+namespace App\Filament\Resources\TokensResource\Widgets;
 
-
-use App\Filament\Tenants\Resources\TokensResource\Pages\ListTokens;
+use App\Filament\Resources\TokensResource\Pages\ListTokens;
 use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
+
+
+
 class TokenStats extends BaseWidget
 {
     use InteractsWithPageTable;
+
 
     protected function getTablePage(): string
     {
         return ListTokens::class;
     }
 
-    protected static ?int $sort = 2;
+//    protected static ?int $sort = 2;
 
     protected function getColumns(): int
     {
@@ -26,6 +29,8 @@ class TokenStats extends BaseWidget
 
     protected function getStats(): array
     {
+//        dd($this->tableColumnSearches);
+
         $Tokens = $this->getPageTableQuery();
 
         // Messages
@@ -40,7 +45,7 @@ class TokenStats extends BaseWidget
                 ->icon('heroicon-o-key'),
             Stat::make('Message Quota', $SumOfMessageQuota)
                 ->description('Total remaining message quotas')
-            ->icon('heroicon-o-envelope'),
+                ->icon('heroicon-o-envelope'),
 
 
         ];

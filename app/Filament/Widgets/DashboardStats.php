@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenants\Widgets;
+namespace App\Filament\Widgets;
 
 use App\Models\messages;
 use App\Models\Tenant;
@@ -24,8 +24,7 @@ class DashboardStats extends BaseWidget
         $tenant = Tenant::findOrFail($tenantId);
 
         // Messages
-        $messages = messages::whereIn('token_id', $tenant->tokens->pluck('id'))
-            ->orderBy('created_at', 'desc')
+        $messages = messages::orderBy('created_at', 'desc')
             ->get();
 
         $firstMessageDate = $messages->last()?->created_at;
@@ -63,4 +62,3 @@ class DashboardStats extends BaseWidget
         ];
     }
 }
-

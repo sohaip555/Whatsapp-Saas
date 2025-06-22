@@ -3,13 +3,17 @@
 namespace App\Filament\Resources\TokensResource\Pages;
 
 use App\Filament\Resources\TokensResource;
-use App\Filament\Tenants\Resources\TokensResource\Widgets\TokenStats;
+use App\Filament\Resources\TokensResource\Widgets\TokenStats;
 use Filament\Actions;
+use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
 class ListTokens extends ListRecords
 {
+    use ExposesTableToWidgets;
+
+
     protected static string $resource = TokensResource::class;
 
     protected function getHeaderActions(): array

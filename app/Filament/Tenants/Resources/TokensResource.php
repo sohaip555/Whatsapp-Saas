@@ -117,19 +117,8 @@ class TokensResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->whereHas('tenantSubscriptionLog', function ($query) {
-                $query->where('tenant_id', auth()->user()->tenant_id);
-            });
+            ->where('tenant_id', '=',  auth()->user()->tenant_id);
     }
-
-
-    public static function getWidgets(): array
-    {
-        return [
-            MessagesTable::class
-        ];
-    }
-
 
     public static function getPages(): array
     {

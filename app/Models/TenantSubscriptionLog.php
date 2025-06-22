@@ -78,7 +78,7 @@ class TenantSubscriptionLog extends Model
                 ->dehydrated(true)
                 ->default(function (){
 
-                    return auth()->user()->tenant_id ?? Tenant::where(['email' => 'admin@example.com'])->first()->id;
+                    return auth()->user()->tenant_id;
                 }),
 
             Hidden::make('message_balance')

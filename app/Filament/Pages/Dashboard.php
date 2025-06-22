@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenants\Pages;
+namespace App\Filament\Pages;
 
 use App\Filament\Tenants\Widgets\DashboardChart;
 use App\Filament\Tenants\Widgets\DashboardStats;

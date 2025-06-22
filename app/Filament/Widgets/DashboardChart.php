@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenants\Widgets;
+namespace App\Filament\Widgets;
 
 use App\Models\messages;
 use Filament\Widgets\ChartWidget;
@@ -11,6 +11,7 @@ class DashboardChart extends ChartWidget
 {
 
     protected static ?int $sort = 2;
+
 
     protected  static ?string $heading = 'Send Messages';
 
@@ -54,7 +55,7 @@ class DashboardChart extends ChartWidget
                 ->perMonth()
                 ->count(),
 
-    };
+        };
         return [
             'datasets' => [
                 [

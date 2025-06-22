@@ -3,11 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TokensResource\Pages;
-use App\Filament\Resources\TokensResource\RelationManagers;
-use App\Filament\Tenants\Resources\TokensResource\Widgets\MessagesTable;
+use App\Filament\Resources\TokensResource\Widgets\MessagesTable;
+use App\Filament\Resources\TokensResource\Widgets\TokenStats;
 use App\Models\token;
-use App\Models\Tokens;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -23,7 +21,7 @@ class TokensResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-key';
 
-    protected static ?string $navigationLabel = 'TokensTable';
+    protected static ?string $navigationLabel = 'Tokens';
 
     protected static ?string $navigationGroup = 'Management';
 
@@ -77,7 +75,7 @@ class TokensResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
@@ -94,20 +92,17 @@ class TokensResource extends Resource
         ];
     }
 
-    public static function getWidgets(): array
+    public static function getEloquentQuery(): Builder
     {
-        return [
-            MessagesTable::class
-        ];
+        return parent::getEloquentQuery()
+            ->where('tenant_id', '=',  auth()->user()->tenant_id);
     }
-
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListTokens::route('/'),
             'view' => Pages\ViewTokens::route('/{record}'),
-            'create' => Pages\CreateTokens::route('/create'),
+//            'create' => Pages\CreateTokens::route('/create'),
 //            'edit' => Pages\EditTokens::route('/{record}/edit'),
         ];
     }

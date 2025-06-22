@@ -23,6 +23,7 @@ class SubscriptionsResource extends Resource
     protected static ?string $label = "Subscriptions";
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'heroicon-o-Subscriptions-stack';
 
 
     public static function form(Form $form): Form
@@ -76,13 +77,6 @@ class SubscriptionsResource extends Resource
         return parent::getEloquentQuery()
             ->where('tenant_id', auth()->user()->tenant_id);
     }
-
-
-    public static function getNavigationGroup(): ?string
-    {
-        return 'Subscriptions';
-    }
-
 
     public static function getPages(): array
     {

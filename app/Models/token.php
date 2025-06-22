@@ -22,36 +22,23 @@ class token extends Model
 
     protected $guarded = [];
 
-    public static function getMyTable()
-    {
-        return [
-            TextColumn::make('tenantSubscriptionLog.name'),
-            TextColumn::make('token')->searchable()
-                ->formatStateUsing(function ($state) {
-                    return Str::limit($state, 20);
-                }),
-            TextColumn::make('message_quota'),
-            ToggleColumn::make('isActive')
-                ->label('Active')
-                ->default(function ($status) {
-                    return $status ? 'Active' : 'Inactive';
-                }),
-            TextColumn::make('created_at')->dateTime(),
-        ];
-    }
-
     public function tenantSubscriptionLog(): BelongsTo
     {
         return $this->belongsTo(TenantSubscriptionLog::class);
     }
 
-    public function messages()
+    public function messages(): token|\Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(messages::class);
     }
 
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
-    protected static function booted()
+
+    protected static function booted(): void
     {
         static::creating(function ($token) {
             $token->tenant_id = auth()->user()->tenant_id;
@@ -112,6 +99,26 @@ class token extends Model
                     return Str::random(64);
                 }),
 
+        ];
+    }
+
+    public static function getMyTable()
+    {
+        return [
+            TextColumn::make('tenantSubscriptionLog.name')
+                ->label('name')
+                ->searchable(),
+            TextColumn::make('token')->searchable()
+                ->formatStateUsing(function ($state) {
+                    return Str::limit($state, 20);
+                }),
+            TextColumn::make('message_quota'),
+            ToggleColumn::make('isActive')
+                ->label('Active')
+                ->default(function ($status) {
+                    return $status ? 'Active' : 'Inactive';
+                }),
+            TextColumn::make('created_at')->dateTime(),
         ];
     }
 

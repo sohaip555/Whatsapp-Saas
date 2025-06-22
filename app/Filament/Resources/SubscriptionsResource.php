@@ -65,9 +65,11 @@ class SubscriptionsResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
-                SelectFilter::make('subscriptionPackage')
+                SelectFilter::make('subscription_package_id')
+                    ->label('Package')
                     ->options(SubscriptionPackage::all()->pluck('name', 'id')),
-                SelectFilter::make('tenant')
+                SelectFilter::make('tenant_id')
+                    ->label('Tenant')
                     ->options(Tenant::all()->pluck('name', 'id')),
             ])
             ->actions([
@@ -85,8 +87,8 @@ class SubscriptionsResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            SubscriptionsStats::class,
-            TokensTable::class,
+//            SubscriptionsStats::class,
+//            TokensTable::class,
         ];
     }
     public static function getRelations(): array

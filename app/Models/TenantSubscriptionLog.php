@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Filament\Facades\Filament;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
@@ -72,7 +73,6 @@ class TenantSubscriptionLog extends Model
                         return $package ? '$' . number_format($package->price, 2) : '$0.00';
                     })
             ])->columns(3),
-
 
             Hidden::make('tenant_id')
                 ->dehydrated(true)

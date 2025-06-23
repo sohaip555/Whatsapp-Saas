@@ -53,7 +53,7 @@ class DashboardStats extends BaseWidget
 
 
         $totalPaidStat = Stat::make('Total Paid', number_format($totalPaid, 2) . ' LYD')
-            ->description('Total spent on subscriptions')
+            ->description('Total profit on subscriptions')
             ->color('success')
             ->icon('heroicon-o-currency-dollar');
 

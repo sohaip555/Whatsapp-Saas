@@ -7,10 +7,9 @@ return [
         'navigation_sort' => -1,
         'navigation_badge' => true,
         'navigation_group' => true,
-        'sub_navigation_position' => null,
         'is_globally_searchable' => false,
         'show_model_path' => true,
-        'is_scoped_to_tenant' => false,
+        'is_scoped_to_tenant' => true,
         'cluster' => null,
     ],
 
@@ -76,14 +75,11 @@ return [
             'AccountWidget', 'FilamentInfoWidget',
         ],
 
-        'resources' => [
-            'roles'       => true,
-            'permissions' => true,
-        ],
+        'resources' => [],
     ],
 
     'discovery' => [
-        'discover_all_resources' => true,
+        'discover_all_resources' => false,
         'discover_all_widgets' => false,
         'discover_all_pages' => false,
     ],

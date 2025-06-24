@@ -9,6 +9,17 @@ enum SubscriptionColor: string
     case Gold = 'gold';
     case Platinum = 'platinum';
 
+
+    public function getColor(): string
+    {
+        return match ($this) {
+            self::Bronze => '#cd7f32',  // لون برونزي (Bronze)
+            self::Silver => '#c0c0c0',  // لون فضي (Silver)
+            self::Gold => '#ffd700',     // لون ذهبي (Gold)
+            self::Platinum => '#e5e4e2', // لون بلاتيني (Platinum)
+        };
+    }
+
     public function price(): int
     {
         return match ($this) {
@@ -39,13 +50,4 @@ enum SubscriptionColor: string
         };
     }
 
-    public function getColor(): string
-    {
-        return match ($this) {
-            self::Bronze => '#cd7f32',  // لون برونزي (Bronze)
-            self::Silver => '#c0c0c0',  // لون فضي (Silver)
-            self::Gold => '#ffd700',     // لون ذهبي (Gold)
-            self::Platinum => '#e5e4e2', // لون بلاتيني (Platinum)
-        };
-    }
 }

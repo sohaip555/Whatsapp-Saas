@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\UserTypeEnum;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Form;
@@ -23,32 +25,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->maxLength(255)
-                    ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null)
-                    ->label('Password'),
-
-                CheckboxList::make('roles')
-                    ->relationship(name: 'roles', titleAttribute: 'name')
-                    ->saveRelationshipsUsing(function (Model $record, $state) {
-                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
-                    })
-                    ->searchable(),
-//                Forms\Components\Toggle::make('is_admin')
-//                    ->label('Is Admin'),
-            ]);
+            ->schema(User::getForm(Filament::getCurrentPanel()));
     }
 
     public static function table(Table $table): Table
@@ -58,11 +35,16 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('email')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('type')->badge()
+                ->color(function(UserTypeEnum $state) {
+                    return $state->getColor();
+                }),
 //                Tables\Columns\IconColumn::make('is_admin')->boolean(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                ->options(UserTypeEnum::class)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
             'tenant_id' => $tenant->id,
+            'type' => 'admin',
         ]);
 
 
@@ -110,6 +111,9 @@ class DatabaseSeeder extends Seeder
 
          User::factory(10)->create();
 
+
+
+        $this->call(RolesAndPermissionsSeeder::class);
 
     }
 }

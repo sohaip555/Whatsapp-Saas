@@ -77,7 +77,6 @@ class TenantSubscriptionLog extends Model
             Hidden::make('tenant_id')
                 ->dehydrated(true)
                 ->default(function (){
-
                     return auth()->user()->tenant_id;
                 }),
 

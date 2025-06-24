@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->foreignIdFor(\App\Models\Tenant::class);
-
-            //Permission
+            $table->string('type');
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

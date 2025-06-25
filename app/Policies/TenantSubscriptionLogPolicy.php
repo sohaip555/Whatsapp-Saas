@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\TenantSubscriptionLog;
+use App\Models\CompanySubscriptionLog;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenantSubscriptionLogPolicy
@@ -21,7 +21,7 @@ class TenantSubscriptionLogPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, TenantSubscriptionLog $tenantSubscriptionLog): bool
+    public function view(User $user, CompanySubscriptionLog $tenantSubscriptionLog): bool
     {
         return $user->can('view_subscriptions');
     }
@@ -37,7 +37,7 @@ class TenantSubscriptionLogPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, TenantSubscriptionLog $tenantSubscriptionLog): bool
+    public function update(User $user, CompanySubscriptionLog $tenantSubscriptionLog): bool
     {
         return $user->can('update_subscriptions');
     }
@@ -45,7 +45,7 @@ class TenantSubscriptionLogPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, TenantSubscriptionLog $tenantSubscriptionLog): bool
+    public function delete(User $user, CompanySubscriptionLog $tenantSubscriptionLog): bool
     {
         return $user->can('delete_subscriptions');
     }
@@ -61,7 +61,7 @@ class TenantSubscriptionLogPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, TenantSubscriptionLog $tenantSubscriptionLog): bool
+    public function forceDelete(User $user, CompanySubscriptionLog $tenantSubscriptionLog): bool
     {
         return $user->can('force_delete_subscriptions');
     }
@@ -77,7 +77,7 @@ class TenantSubscriptionLogPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, TenantSubscriptionLog $tenantSubscriptionLog): bool
+    public function restore(User $user, CompanySubscriptionLog $tenantSubscriptionLog): bool
     {
         return $user->can('restore_subscriptions');
     }
@@ -93,7 +93,7 @@ class TenantSubscriptionLogPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, TenantSubscriptionLog $tenantSubscriptionLog): bool
+    public function replicate(User $user, CompanySubscriptionLog $tenantSubscriptionLog): bool
     {
         return $user->can('replicate_subscriptions');
     }

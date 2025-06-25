@@ -13,7 +13,7 @@ class TenantController extends Controller
 {
     use ApiResponses;
     /**
-     * Send a message for a tenant.
+     * Send a message for a company.
      */
     public function sendMessage(MessageRequest $request)
     {

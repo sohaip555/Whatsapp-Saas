@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\TokensResource\Pages;
 
 use App\Filament\Resources\TokensResource;
-use App\Filament\Tenants\Resources\TokensResource\Widgets\MessagesTable;
+use App\Filament\Companies\Resources\TokensResource\Widgets\MessagesTable;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 

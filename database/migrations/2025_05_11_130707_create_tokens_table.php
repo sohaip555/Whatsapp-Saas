@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\TenantSubscriptionLog;
+use App\Models\CompanySubscriptionLog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +14,11 @@ return new class extends Migration
     {
         Schema::create('tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TenantSubscriptionLog::class)->constrained();
+            $table->foreignIdFor(CompanySubscriptionLog::class)->constrained();
             $table->string('token', 64); // Unique token for the record
             $table->boolean('isActive')->default(false);
             $table->unsignedInteger('message_quota'); // Total message quota
-            $table->foreignIdFor(\App\Models\Tenant::class)->constrained();
+            $table->foreignIdFor(\App\Models\Company::class)->constrained();
             $table->timestamps();
         });
     }

@@ -6,8 +6,8 @@ use App\Filament\Resources\SubscriptionsResource\Pages;
 use App\Filament\Resources\SubscriptionsResource\Widgets\SubscriptionsStats;
 use App\Filament\Resources\SubscriptionsResource\Widgets\TokensTable;
 use App\Models\SubscriptionPackage;
-use App\Models\Tenant;
-use App\Models\TenantSubscriptionLog;
+use App\Models\Company;
+use App\Models\CompanySubscriptionLog;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SubscriptionsResource extends Resource
 {
-    protected static ?string $model = TenantSubscriptionLog::class;
+    protected static ?string $model = CompanySubscriptionLog::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'Subscriptions';
@@ -36,13 +36,13 @@ class SubscriptionsResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(TenantSubscriptionLog::getForm());
+            ->schema(CompanySubscriptionLog::getForm());
     }
 
     public static function infolist(\Filament\Infolists\Infolist $infolist): \Filament\Infolists\Infolist
     {
         return $infolist
-            ->schema(TenantSubscriptionLog::getMyInfolist());
+            ->schema(CompanySubscriptionLog::getMyInfolist());
     }
 
     public static function table(Table $table): Table
@@ -52,7 +52,7 @@ class SubscriptionsResource extends Resource
 
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('tenant.name')
+                TextColumn::make('company.name')
                     ->searchable(),
                 TextColumn::make('subscriptionPackage.name')
                     ->label('Package Name')
@@ -68,9 +68,9 @@ class SubscriptionsResource extends Resource
                 SelectFilter::make('subscription_package_id')
                     ->label('Package')
                     ->options(SubscriptionPackage::all()->pluck('name', 'id')),
-                SelectFilter::make('tenant_id')
-                    ->label('Tenant')
-                    ->options(Tenant::all()->pluck('name', 'id')),
+                SelectFilter::make('company_id')
+                    ->label('Company')
+                    ->options(Company::all()->pluck('name', 'id')),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

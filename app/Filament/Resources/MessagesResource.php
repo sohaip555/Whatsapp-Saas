@@ -45,7 +45,7 @@ class MessagesResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('receiving_number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tenant.name')
+                Tables\Columns\TextColumn::make('company.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

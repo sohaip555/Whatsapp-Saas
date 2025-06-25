@@ -21,7 +21,7 @@ trait ApiResponses{
 
     protected function error($message, $statusCode = 404)
     {
-        dd($message);
+//        dd($message);
         return response()->json([
             'message' => $message,
         ], $statusCode);

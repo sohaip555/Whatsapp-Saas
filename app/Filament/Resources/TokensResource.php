@@ -95,7 +95,7 @@ class TokensResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('tenant_id', '=',  auth()->user()->tenant_id);
+            ->where('company_id', '=',  auth()->user()->company_id);
     }
     public static function getPages(): array
     {

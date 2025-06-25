@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\token;
-use App\Models\TenantSubscriptionLog;
+use App\Models\CompanySubscriptionLog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('sending_number');
             $table->string('receiving_number');
 
-            $table->foreignIdFor(\App\Models\Tenant::class)->constrained();
+            $table->foreignIdFor(\App\Models\Company::class)->constrained();
             $table->timestamps();
         });
     }

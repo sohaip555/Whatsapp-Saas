@@ -34,6 +34,6 @@ class SubscriptionPackage extends Model
 
     public function tenantSubscriptionLogs(): HasMany
     {
-        return $this->hasMany(TenantSubscriptionLog::class);
+        return $this->hasMany(CompanySubscriptionLog::class);
     }
 }

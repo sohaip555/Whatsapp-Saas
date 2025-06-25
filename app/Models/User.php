@@ -26,6 +26,8 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
+//     mixed $company_id;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -73,20 +75,20 @@ class User extends Authenticatable implements FilamentUser
      * @throws \Exception
      */
     public function canAccessPanel(Panel $panel): bool
-        {
+    {
 //            dd($this->type);
-            if ($panel->getId() == 'admin' && $this->type == UserTypeEnum::Admin){
-               return true;
-              }
+        if ($panel->getId() == 'admin' && $this->type == UserTypeEnum::Admin){
+           return true;
+          }
 
 
-              if ($panel->getId() == 'company' && $this->type == UserTypeEnum::Company){
-               return true;
-             }
+          if ($panel->getId() == 'company' && $this->type == UserTypeEnum::Company || $this->type == UserTypeEnum::Admin){
+           return true;
+         }
 
 
-              return false;
-        }
+          return false;
+    }
 
 
     public static function getForm(): array
@@ -130,11 +132,11 @@ class User extends Authenticatable implements FilamentUser
                 ->visibleOn(['create'])
                 ->maxLength(255),
 
-            Hidden::make('tenant_id')
+            Hidden::make('company_id')
                 ->dehydrated(true)
                 ->default(function (){
 
-                    return auth()->user()->tenant_id;
+                    return auth()->user()->company_id;
                 }),
 
 

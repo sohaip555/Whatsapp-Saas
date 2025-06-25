@@ -4,7 +4,7 @@ namespace App\Filament\Resources\SubscriptionsResource\Pages;
 
 use App\Filament\Resources\SubscriptionsResource;
 use App\Filament\Resources\SubscriptionsResource\Widgets\SubscriptionsStats;
-use App\Models\TenantSubscriptionLog;
+use App\Models\CompanySubscriptionLog;
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
@@ -31,6 +31,6 @@ class ListSubscriptions extends ListRecords
 
     public function getTabs(): array
     {
-        return TenantSubscriptionLog::getMyTable();
+        return CompanySubscriptionLog::getMyTable();
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Tenant;
-use App\Models\TenantSubscriptionLog;
+use App\Models\Company;
+use App\Models\CompanySubscriptionLog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,10 +20,10 @@ class tokenFactory extends Factory
     {
         return [
             'token' => 'DHkWCvz7IEjTcxIhZgf0WmGjsXnELq84jEREIuF0t2WxPf0SRvAcOPSnN2CrC1FI', // Unique token for the record
-            'tenant_subscription_log_id' => TenantSubscriptionLog::factory(),
+            'company_subscription_log_id' => CompanySubscriptionLog::factory(),
             'message_quota' => $this->faker->numberBetween(1, 1000), // Random message quota between 1 and 1000
             'isActive' => $this->faker->numberBetween(0, 1),
-            'tenant_id' => Tenant::factory(),
+            'company_id' => Company::factory(),
         ];
     }
 }

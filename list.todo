@@ -1,5 +1,6 @@
-TODO: Database modifications
-    [] Change the name of tenant table to companies
+TODO: Database modifications in the system
+    [x] Change the name of Tenant Model to Companies
+    [x] Change the name of tenant table to companies
 
 
 

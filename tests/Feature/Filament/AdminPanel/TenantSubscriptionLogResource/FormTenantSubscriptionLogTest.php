@@ -2,7 +2,7 @@
 
 
 use App\Filament\Resources\SubscriptionsResource\Pages\CreateSubscriptions;
-use App\Models\Tenant;
+use App\Models\Company;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -10,7 +10,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     actAsAdmin();
 
-    Tenant::factory()->create([
+    Company::factory()->create([
         'name' => 'Test',
         'email' => 'admin@example.com',
         'password' => bcrypt('password'),
@@ -31,7 +31,7 @@ it('can render the correct fields', function () {
     Livewire::test(CreateSubscriptions::class)
         ->assertFormFieldExists('name')
         ->assertFormFieldExists('subscription_package_id')
-        ->assertFormFieldExists('tenant_id')
+        ->assertFormFieldExists('company_id')
         ->assertFormFieldExists('message_balance')
         ->assertSee('price_display');
 
@@ -67,11 +67,11 @@ it('creates a subscription log if the validation passes', function () {
         ])
         ->call('create');
 
-    $this->assertDatabaseHas('tenant_subscription_logs', [
+    $this->assertDatabaseHas('company_subscription_logs', [
         'name' => 'dskchskldc',
         'subscription_package_id' => $package->id,
         'message_balance' => $package->message_balance,
-        'tenant_id' => auth()->user()->tenant_id ?? Tenant::where(['email' => 'admin@example.com'])->first()->id,
+        'company_id' => auth()->user()->company_id ?? Company::where(['email' => 'admin@example.com'])->first()->id,
     ]);
 
 

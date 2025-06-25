@@ -24,7 +24,7 @@ class token extends Model
 
     public function tenantSubscriptionLog(): BelongsTo
     {
-        return $this->belongsTo(TenantSubscriptionLog::class);
+        return $this->belongsTo(CompanySubscriptionLog::class);
     }
 
     public function messages(): token|\Illuminate\Database\Eloquent\Relations\HasMany
@@ -32,39 +32,39 @@ class token extends Model
         return $this->hasMany(messages::class);
     }
 
-    public function tenant(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(Company::class);
     }
 
 
-    protected static function booted(): void
-    {
-        static::creating(function ($token) {
-            $token->tenant_id = auth()->user()->tenant_id;
-        });
-
-
-        static::created(function ($token) {
-//            dd($token);
-            $subscription = $token->tenantSubscriptionLog;
-
-            if ($subscription && $subscription->message_balance >= $token->message_quota) {
-                $subscription->message_balance -= $token->message_quota;
-                $subscription->save();
-            }
-        });
-
-
-        static::deleted(function ($token) {
-//            dd($token);
-            $subscription = $token->tenantSubscriptionLog;
-
-                $subscription->message_balance += $token->message_quota;
-                $subscription->save();
-
-        });
-    }
+//    protected static function booted(): void
+//    {
+//        static::creating(function ($token) {
+//            $token->company_id = auth()->user()->company_id;
+//        });
+//
+//
+//        static::created(function ($token) {
+////            dd($token);
+//            $subscription = $token->tenantSubscriptionLog;
+//
+//            if ($subscription && $subscription->message_balance >= $token->message_quota) {
+//                $subscription->message_balance -= $token->message_quota;
+//                $subscription->save();
+//            }
+//        });
+//
+//
+//        static::deleted(function ($token) {
+////            dd($token);
+//            $subscription = $token->tenantSubscriptionLog;
+//
+//                $subscription->message_balance += $token->message_quota;
+//                $subscription->save();
+//
+//        });
+//    }
 
 
     public static function getForm()
@@ -74,8 +74,8 @@ class token extends Model
                 ->label('Subscription Log')
                 ->relationship('tenantSubscriptionLog', 'name',
                     modifyQueryUsing: fn (Builder $query) => $query
-                        ->where('tenant_id', auth()->user()->tenant_id)
-                        ->where('tenant_subscription_logs.message_balance','>' , 0)
+                        ->where('company_id', auth()->user()->company_id)
+                        ->where('company_subscription_logs.message_balance','>' , 0)
                         ->orderBy('created_at', 'desc')
                 ),
 
@@ -84,7 +84,7 @@ class token extends Model
                 ->rule(function (callable $get) {
                     $subscriptionId = $get('tenant_subscription_log_id');
 
-                    $subscription = \App\Models\TenantSubscriptionLog::find($subscriptionId);
+                    $subscription = \App\Models\CompanySubscriptionLog::find($subscriptionId);
 
                     return function (string $attribute, $value, callable $fail) use ($subscription) {
                         if ($value > $subscription->message_balance) {

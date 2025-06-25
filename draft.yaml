@@ -8,9 +8,9 @@ models:
     created_at: timestamp nullable
     updated_at: timestamp nullable
     relationships:
-      hasMany: TenantSubscriptionLog
+      hasMany: CompanySubscriptionLog
 
-  Tenant:
+  Company:
     name: string
     email: string unique
     password: string
@@ -18,16 +18,16 @@ models:
     created_at: timestamp nullable
     updated_at: timestamp nullable
     relationships:
-      hasMany: TenantSubscriptionLog
+      hasMany: CompanySubscriptionLog
 
   TenantSubscriptionLog:
-    tenant_id: unsignedBigInteger
+    company_id: unsignedBigInteger
     subscription_package_id: unsignedBigInteger
     message_balance: integer
     created_at: timestamp nullable
     updated_at: timestamp nullable
     relationships:
-      belongsTo: Tenant
+      belongsTo: Company
       belongsTo: SubscriptionPackage
 
 controllers:

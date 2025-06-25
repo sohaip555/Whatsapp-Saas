@@ -19,9 +19,9 @@ class messages extends Model
         return $this->belongsTo(token::class);
     }
 
-    public function tenant()
+    public function company()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(Company::class);
     }
 
 
@@ -30,7 +30,7 @@ class messages extends Model
         $tokens = token::where('token', $bearerToken)->firstOrFail();
 
         $message['token_id'] = $tokens->id;
-        $message['tenant_id'] = $tokens->tenant->id;
+        $message['company_id'] = $tokens->company->id;
         $message = messages::create($message);
 
         $tokens->message_quota -= 1;
@@ -53,7 +53,7 @@ class messages extends Model
             messages::create([
                 'message' =>  $message['message'],
                 'token_id' => $tokens->id,
-                'tenant_id' => $tokens->tenant->id,
+                'company_id' => $tokens->company->id,
                 'sending_number' =>  $message['sending_number'],
                 'receiving_number' => $number,
 

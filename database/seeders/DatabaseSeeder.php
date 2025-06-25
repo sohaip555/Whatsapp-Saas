@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use App\Models\messages;
 use App\Models\token;
 use App\Models\SubscriptionPackage;
-use App\Models\Tenant;
-use App\Models\TenantSubscriptionLog;
+use App\Models\Company;
+use App\Models\CompanySubscriptionLog;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $tenant = Tenant::factory()->create([
+        $company = Company::factory()->create([
             'name' => 'Test',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
@@ -29,15 +29,23 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
-            'tenant_id' => $tenant->id,
+            'company_id' => $company->id,
             'type' => 'admin',
         ]);
 
+        User::factory()->create([
+            'name' => 'Test2',
+            'email' => 'test2@example.com',
+            'password' => bcrypt('password'),
+            'company_id' => $company->id,
+            'type' => 'company',
+        ]);
 
-        $tenants[] = Tenant::factory(5)->create();
+
+        $companies[] = Company::factory(5)->create();
 
 
-//dd($tenants);
+//dd($companies);
         $packages = SubscriptionPackage::insert([
             [
                 'name' => 'bronze',
@@ -78,22 +86,22 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++){
             $package = SubscriptionPackage::inRandomOrder()->first();
-            TenantSubscriptionLog::factory()->create([
-                'tenant_id' => $tenant->id,
+            CompanySubscriptionLog::factory()->create([
+                'company_id' => $company->id,
                 'subscription_package_id' => $package->id,
                 'message_balance' => $package->message_balance,
             ]);
         }
 
 
-//        dd(Tenant::all()->first()->tenantSubscriptionLog);
+//        dd(Company::all()->first()->tenantSubscriptionLog);
 
-        foreach ($tenant->subscriptionLogs as $subscriptionLog) {
+        foreach ($company->subscriptionLogs as $subscriptionLog) {
 
             $tokens = token::factory()->create([
-                'tenant_subscription_log_id' => $subscriptionLog->id,
+                'company_subscription_log_id' => $subscriptionLog->id,
                 'message_quota' => $subscriptionLog->message_balance - 80,
-                'tenant_id' => $tenant->id,
+                'company_id' => $company->id,
             ]);
 
             $subscriptionLog->message_balance = $subscriptionLog->message_balance - $tokens->message_quota;
@@ -105,7 +113,7 @@ class DatabaseSeeder extends Seeder
             messages::factory()->create([
                 'created_at' => now()->subDays(rand(0, 5)),
                 'token_id' => $token->id,
-                'tenant_id' =>  $tenant->id,
+                'company_id' =>  $company->id,
             ]);
         }
 

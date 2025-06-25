@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\MessagesResource\Pages;
 
 use App\Filament\Resources\MessagesResource;
-use App\Filament\Tenants\Widgets\DashboardStats;
+use App\Filament\Companies\Widgets\DashboardStats;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

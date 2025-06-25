@@ -3,7 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\messages;
-use App\Models\Tenant;
+use App\Models\Company;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Carbon;
@@ -20,8 +20,8 @@ class DashboardStats extends BaseWidget
 
     protected function getStats(): array
     {
-        $tenantId = auth()->user()->tenant_id;
-        $tenant = Tenant::findOrFail($tenantId);
+        $companyId = auth()->user()->company_id;
+        $company = Company::findOrFail($companyId);
 
         // Messages
         $messages = messages::orderBy('created_at', 'desc')

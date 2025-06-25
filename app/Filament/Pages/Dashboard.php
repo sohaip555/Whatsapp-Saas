@@ -2,8 +2,8 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Tenants\Widgets\DashboardChart;
-use App\Filament\Tenants\Widgets\DashboardStats;
+use App\Filament\Companies\Widgets\DashboardChart;
+use App\Filament\Companies\Widgets\DashboardStats;
 use Filament\Pages\Page;
 
 class Dashboard extends Page

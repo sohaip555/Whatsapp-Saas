@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
         Model::preventLazyLoading(!app()->isProduction());
 //        Gate::policy(Author::class, \App\Policies\Blog\AuthorPolicy::class);
 //        Gate::policy(\Ramnzys\FilamentEmailLog\Models\Email::class, \App\Policies\EmailPolicy::class);

@@ -27,18 +27,14 @@ class messages extends Model
 
     public static function sendMessage(array $message,  $bearerToken)
     {
-//        dd($message);
         $tokens = token::where('token', $bearerToken)->firstOrFail();
 
         $message['token_id'] = $tokens->id;
+        $message['tenant_id'] = $tokens->tenant->id;
         $message = messages::create($message);
-
-//            dd($tokens);
 
         $tokens->message_quota -= 1;
         $tokens->save();
-
-
 
         return $message;
     }
@@ -57,6 +53,7 @@ class messages extends Model
             messages::create([
                 'message' =>  $message['message'],
                 'token_id' => $tokens->id,
+                'tenant_id' => $tokens->tenant->id,
                 'sending_number' =>  $message['sending_number'],
                 'receiving_number' => $number,
 

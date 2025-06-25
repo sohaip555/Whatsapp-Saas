@@ -1,8 +1,5 @@
-// TODO:  Design and implement API route to send a WhatsApp message to multiple recipients
-        - Create a new API endpoint: `POST /api/messages/bulk-send`
-        - Accept JSON payload with sender number, message body, and an array of recipient numbers
-        - Validate all input fields (e.g. sender format, phone numbers, message length)
-        - Iterate through recipient list and dispatch a message job for each
-        - Return a structured JSON response with the status of each message
-        - Ensure authentication and rate-limiting are in place
+TODO: Database modifications
+    [] Change the name of tenant table to companies
+
+
 

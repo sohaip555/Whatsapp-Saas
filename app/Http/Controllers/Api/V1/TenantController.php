@@ -21,18 +21,18 @@ class TenantController extends Controller
 
         $message = messages::sendMessage($request->mappedAttributes(), $request->bearerToken());
 //        dd($message);
-        if (!$message){
-            return $this->error(['error' => 'Insufficient message balance'], 400);
+        if ($message){
+            return $this->ok(
+                'Message sent successfully',
+                [
+                    'sending number' => $message->sending_number,
+                    'receiving number' => $message->receiving_number,
+                    'message quota' => $message->token->message_quota,
+                ]);
+
         }
 
-        // Logic to send a message (e.g., via email or SMS may be added here)
-        return $this->ok(
-            'Message sent successfully',
-            [
-            'sending number' => $message->sending_number,
-            'receiving number' => $message->receiving_number,
-            'message quota' => $message->token->message_quota,
-            ]);
+        return $this->error(['error' => 'Insufficient message balance'], 400);
     }
 
 
